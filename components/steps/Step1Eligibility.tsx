@@ -8,6 +8,7 @@ type Answers = {
   isUKResident: 'yes' | 'no' | '';
   hasConflictingBenefit: 'yes' | 'no' | '';
   needsCare: 'yes' | 'no' | '';
+  hasPensionCredit: 'yes' | 'no' | '';
 };
 
 interface Props {
@@ -31,8 +32,8 @@ function YesNoQuestion({
   const t = useTranslations('buttons');
   return (
     <div className="mb-6">
-      <p className="font-medium text-gray-800 mb-1">{question}</p>
-      {help && <p className="text-sm text-gray-500 mb-3">{help}</p>}
+      <p className="font-medium text-slate-200 mb-1">{question}</p>
+      {help && <p className="text-sm text-slate-400 mb-3">{help}</p>}
       <div className="flex gap-3">
         {(['yes', 'no'] as const).map((v) => (
           <button
@@ -41,8 +42,8 @@ function YesNoQuestion({
             onClick={() => onChange(v)}
             className={`px-6 py-2 rounded-lg border-2 font-medium transition-colors ${
               value === v
-                ? 'border-blue-600 bg-blue-50 text-blue-700'
-                : 'border-gray-300 bg-white text-gray-700 hover:border-blue-300'
+                ? 'border-blue-500 bg-blue-900/40 text-blue-300'
+                : 'border-slate-600 bg-slate-800 text-slate-300 hover:border-blue-500'
             }`}
           >
             {t(v)}
@@ -55,13 +56,13 @@ function YesNoQuestion({
 
 export default function Step1Eligibility({ data, onNext }: Props) {
   const t = useTranslations('eligibility');
-  const bt = useTranslations('buttons');
 
   const [answers, setAnswers] = useState<Answers>({
     isOver66: data.isOver66 || '',
     isUKResident: data.isUKResident || '',
     hasConflictingBenefit: data.hasConflictingBenefit || '',
     needsCare: data.needsCare || '',
+    hasPensionCredit: data.hasPensionCredit || '',
   });
 
   const ineligibleReason: IneligibleReason =
@@ -74,7 +75,8 @@ export default function Step1Eligibility({ data, onNext }: Props) {
     answers.isOver66 !== '' &&
     answers.isUKResident !== '' &&
     answers.hasConflictingBenefit !== '' &&
-    answers.needsCare !== '';
+    answers.needsCare !== '' &&
+    answers.hasPensionCredit !== '';
 
   const isEligible = allAnswered && ineligibleReason === null;
 
@@ -83,8 +85,8 @@ export default function Step1Eligibility({ data, onNext }: Props) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('title')}</h2>
-      <p className="text-gray-600 mb-8">{t('intro')}</p>
+      <h2 className="text-2xl font-bold text-white mb-2">{t('title')}</h2>
+      <p className="text-slate-400 mb-8">{t('intro')}</p>
 
       <YesNoQuestion question={t('ageQuestion')} value={answers.isOver66} onChange={set('isOver66')} />
       <YesNoQuestion question={t('residencyQuestion')} value={answers.isUKResident} onChange={set('isUKResident')} />
@@ -95,19 +97,25 @@ export default function Step1Eligibility({ data, onNext }: Props) {
         value={answers.needsCare}
         onChange={set('needsCare')}
       />
+      <YesNoQuestion
+        question={t('pensionCreditQuestion')}
+        help={t('pensionCreditHelp')}
+        value={answers.hasPensionCredit}
+        onChange={set('hasPensionCredit')}
+      />
 
       {allAnswered && ineligibleReason && (
-        <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-          <h3 className="font-semibold text-amber-800 mb-2">{t('ineligibleTitle')}</h3>
-          <p className="text-amber-700 mb-2">{t(`ineligible${ineligibleReason.charAt(0).toUpperCase() + ineligibleReason.slice(1)}` as 'ineligibleAge')}</p>
-          <p className="text-sm text-amber-600">{t('alternativeHelp')}</p>
+        <div className="mt-6 p-4 bg-amber-900/30 border border-amber-700 rounded-xl">
+          <h3 className="font-semibold text-amber-300 mb-2">{t('ineligibleTitle')}</h3>
+          <p className="text-amber-400 mb-2">{t(`ineligible${ineligibleReason.charAt(0).toUpperCase() + ineligibleReason.slice(1)}` as 'ineligibleAge')}</p>
+          <p className="text-sm text-amber-500">{t('alternativeHelp')}</p>
         </div>
       )}
 
       {isEligible && (
         <button
           onClick={() => onNext(answers as Answers)}
-          className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+          className="mt-8 w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
         >
           {t('continue')}
         </button>

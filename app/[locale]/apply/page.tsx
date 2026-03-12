@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import ProgressBar from '@/components/ProgressBar';
 import Step1Eligibility from '@/components/steps/Step1Eligibility';
-import Step2PersonalDetails from '@/components/steps/Step2PersonalDetails';
 import Step3ContactDetails from '@/components/steps/Step3ContactDetails';
 import Step4HealthConditions from '@/components/steps/Step4HealthConditions';
-import Step5DaytimeCare from '@/components/steps/Step5DaytimeCare';
-import Step6NighttimeCare from '@/components/steps/Step6NighttimeCare';
-import Step7Medications from '@/components/steps/Step7Medications';
-import Step8HealthcareProfessionals from '@/components/steps/Step8HealthcareProfessionals';
-import Step9Review from '@/components/steps/Step9Review';
-import { ApplicationData } from '@/lib/validations';
+import Step5Review from '@/components/steps/Step5Review';
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 4;
+
+type FormData = {
+  eligibility?: Record<string, string>;
+  contact?: Record<string, string>;
+  health?: { conditions: string[]; other: string };
+};
 
 export default function ApplyPage() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function ApplyPage() {
 
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [data, setData] = useState<Partial<ApplicationData>>({});
+  const [data, setData] = useState<FormData>({});
 
   const goTo = (s: number) => {
     setStep(s);
@@ -31,7 +31,7 @@ export default function ApplyPage() {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const next = (stepData: any, key: keyof ApplicationData) => {
+  const next = (stepData: any, key: keyof FormData) => {
     setData((prev) => ({ ...prev, [key]: stepData }));
     goTo(step + 1);
   };
@@ -66,56 +66,21 @@ export default function ApplyPage() {
         />
       )}
       {step === 2 && (
-        <Step2PersonalDetails
-          data={data.personal || {}}
-          onNext={(d) => next(d, 'personal')}
-          onBack={back}
-        />
-      )}
-      {step === 3 && (
         <Step3ContactDetails
           data={data.contact || {}}
           onNext={(d) => next(d, 'contact')}
           onBack={back}
         />
       )}
-      {step === 4 && (
+      {step === 3 && (
         <Step4HealthConditions
-          data={data.health || {}}
+          data={data.health || { conditions: [], other: '' }}
           onNext={(d) => next(d, 'health')}
           onBack={back}
         />
       )}
-      {step === 5 && (
-        <Step5DaytimeCare
-          data={data.daytime || {}}
-          onNext={(d) => next(d, 'daytime')}
-          onBack={back}
-        />
-      )}
-      {step === 6 && (
-        <Step6NighttimeCare
-          data={data.nighttime || {}}
-          onNext={(d) => next(d, 'nighttime')}
-          onBack={back}
-        />
-      )}
-      {step === 7 && (
-        <Step7Medications
-          data={data.medications || {}}
-          onNext={(d) => next(d, 'medications')}
-          onBack={back}
-        />
-      )}
-      {step === 8 && (
-        <Step8HealthcareProfessionals
-          data={data.professionals || {}}
-          onNext={(d) => next(d, 'professionals')}
-          onBack={back}
-        />
-      )}
-      {step === 9 && (
-        <Step9Review
+      {step === 4 && (
+        <Step5Review
           data={data}
           onSubmit={handleSubmit}
           onBack={back}

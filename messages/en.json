@@ -28,6 +28,8 @@
     "ineligibleResidency": "You must have lived in Great Britain for at least 2 of the last 3 years.",
     "ineligibleBenefit": "You cannot receive Attendance Allowance at the same time as DLA, PIP, or ADP.",
     "ineligibleCare": "Attendance Allowance is for people who need help with personal care or supervision due to a disability or health condition.",
+    "pensionCreditQuestion": "Are you currently receiving Pension Credit?",
+    "pensionCreditHelp": "Pension Credit is a separate benefit — you can receive both Pension Credit and Attendance Allowance at the same time.",
     "alternativeHelp": "You may be entitled to other benefits. Contact Citizens Advice or your local council for more information.",
     "continue": "Continue to Application"
   },
@@ -70,16 +72,9 @@
   },
   "health": {
     "title": "Your Health Conditions",
-    "intro": "Tell us about the health conditions, disabilities, or illnesses that affect your daily life.",
-    "addCondition": "Add a condition",
-    "removeCondition": "Remove",
-    "conditionName": "Condition or diagnosis",
-    "conditionNamePlaceholder": "e.g. Arthritis, Diabetes, Dementia",
-    "diagnosedDate": "When were you diagnosed (approximate)?",
-    "conditionDescription": "How does this condition affect you day to day?",
-    "conditionDescriptionPlaceholder": "Describe how this condition limits your ability to carry out daily activities...",
-    "conditionRequired": "Please enter the name of your condition",
-    "conditionDescRequired": "Please describe how this condition affects you"
+    "checklistIntro": "Please tick all conditions that apply to you.",
+    "otherLabel": "Any other condition not listed above?",
+    "otherPlaceholder": "e.g. Multiple Sclerosis, Fibromyalgia..."
   },
   "daytime": {
     "title": "Daytime Care Needs",

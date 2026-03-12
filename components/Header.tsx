@@ -16,7 +16,7 @@ export default function Header({ locale }: { locale: string }) {
   const switchPath = pathname.replace(`/${locale}`, `/${otherLocale}`);
 
   return (
-    <header className="bg-blue-700 text-white shadow-md">
+    <header className="bg-slate-900 border-b border-slate-700 text-white shadow-md">
       <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
         <Link href={`/${locale}`} className="font-semibold text-base md:text-lg hover:text-blue-200 transition-colors">
           <span className="mr-2">{flag}</span>

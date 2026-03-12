@@ -44,13 +44,13 @@ export default function Step5DaytimeCare({ data, onNext, onBack }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onNext)}>
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('title')}</h2>
-      <p className="text-gray-600 mb-8">{t('intro')}</p>
+      <h2 className="text-2xl font-bold text-white mb-2">{t('title')}</h2>
+      <p className="text-slate-400 mb-8">{t('intro')}</p>
 
       {CARE_ITEMS.map((key) => (
-        <div key={key} className="mb-4 border border-gray-200 rounded-xl bg-white overflow-hidden">
+        <div key={key} className="mb-4 border border-slate-700 rounded-xl bg-slate-800 overflow-hidden">
           <div className="flex items-center justify-between px-5 py-4">
-            <span className="font-medium text-gray-800">{t(key)}</span>
+            <span className="font-medium text-slate-200">{t(key)}</span>
             <Controller
               control={control}
               name={`${key}.needsHelp`}
@@ -64,9 +64,9 @@ export default function Step5DaytimeCare({ data, onNext, onBack }: Props) {
                       className={`px-4 py-1.5 rounded-lg text-sm font-medium border-2 transition-colors ${
                         field.value === v
                           ? v
-                            ? 'border-blue-600 bg-blue-50 text-blue-700'
-                            : 'border-gray-400 bg-gray-50 text-gray-600'
-                          : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                            ? 'border-blue-500 bg-blue-900/40 text-blue-300'
+                            : 'border-slate-500 bg-slate-700 text-slate-300'
+                          : 'border-slate-600 text-slate-500 hover:border-slate-500'
                       }`}
                     >
                       {v ? bt('yes') : bt('no')}
@@ -78,20 +78,20 @@ export default function Step5DaytimeCare({ data, onNext, onBack }: Props) {
           </div>
 
           {watched[key]?.needsHelp && (
-            <div className="px-5 pb-5 border-t border-gray-100 pt-4 space-y-3 bg-blue-50/30">
+            <div className="px-5 pb-5 border-t border-slate-700 pt-4 space-y-3 bg-blue-950/20">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('frequency')}</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">{t('frequency')}</label>
                 <input
                   {...register(`${key}.frequency`)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-600 bg-slate-700 text-white placeholder-slate-400 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder={t('frequencyPlaceholder')}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t('description')}</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">{t('description')}</label>
                 <textarea
                   {...register(`${key}.description`)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] resize-y"
+                  className="w-full border border-slate-600 bg-slate-700 text-white placeholder-slate-400 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] resize-y"
                   placeholder={t('descriptionPlaceholder')}
                 />
               </div>
@@ -101,10 +101,10 @@ export default function Step5DaytimeCare({ data, onNext, onBack }: Props) {
       ))}
 
       <div className="flex gap-3 mt-8">
-        <button type="button" onClick={onBack} className="flex-1 border-2 border-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors">
+        <button type="button" onClick={onBack} className="flex-1 border-2 border-slate-600 text-slate-300 font-semibold py-3 px-6 rounded-xl hover:bg-slate-800 transition-colors">
           {bt('back')}
         </button>
-        <button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
+        <button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
           {bt('continue')}
         </button>
       </div>
