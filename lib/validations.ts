@@ -37,14 +37,9 @@ export const contactSchema = z.object({
   ]).optional(),
 });
 
-const conditionSchema = z.object({
-  name: z.string().min(1, 'Condition name is required'),
-  diagnosedDate: z.string().optional(),
-  description: z.string().min(10, 'Please provide more detail about this condition'),
-});
-
 export const healthSchema = z.object({
-  conditions: z.array(conditionSchema).min(1, 'Please add at least one health condition'),
+  conditions: z.array(z.string()),
+  other: z.string().optional(),
 });
 
 const careItemSchema = z.object({
