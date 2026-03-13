@@ -1,13 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
 function ConfirmationContent() {
   const t = useTranslations('confirmation');
-  const searchParams = useSearchParams();
-  const reference = searchParams.get('ref') || '—';
 
   return (
     <div className="text-center py-8">
@@ -19,14 +16,7 @@ function ConfirmationContent() {
       </div>
 
       <h1 className="text-3xl font-bold text-white mb-3">{t('title')}</h1>
-      <p className="text-slate-400 mb-8 max-w-md mx-auto">{t('thankYou')}</p>
-
-      {/* Reference box */}
-      <div className="inline-block bg-blue-950/60 border border-blue-700 rounded-xl px-8 py-5 mb-10">
-        <p className="text-sm text-blue-400 font-medium mb-1">{t('reference')}</p>
-        <p className="text-2xl font-bold text-blue-300 font-mono tracking-wider">{reference}</p>
-        <p className="text-xs text-blue-500 mt-2">{t('keepReference')}</p>
-      </div>
+      <p className="text-slate-400 mb-10 max-w-md mx-auto">{t('thankYou')}</p>
 
       {/* Next steps */}
       <div className="text-left max-w-md mx-auto">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import ProgressBar from '@/components/ProgressBar';
 import Step1Eligibility from '@/components/steps/Step1Eligibility';
@@ -21,9 +21,21 @@ export default function ApplyPage() {
   const params = useParams();
   const locale = params.locale as string;
 
-  const [step, setStep] = useState(1);
+  const SESSION_KEY = 'allowme_form';
+
+  const [step, setStep] = useState<number>(() => {
+    if (typeof window === 'undefined') return 1;
+    try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}').step || 1; } catch { return 1; }
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [data, setData] = useState<FormData>({});
+  const [data, setData] = useState<FormData>(() => {
+    if (typeof window === 'undefined') return {};
+    try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}').data || {}; } catch { return {}; }
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ step, data }));
+  }, [step, data]);
 
   const goTo = (s: number) => {
     setStep(s);
@@ -47,8 +59,8 @@ export default function ApplyPage() {
         body: JSON.stringify({ ...data, locale }),
       });
       if (!res.ok) throw new Error('Submit failed');
-      const { reference } = await res.json();
-      router.push(`/${locale}/apply/confirmation?ref=${reference}`);
+      sessionStorage.removeItem(SESSION_KEY);
+      router.push(`/${locale}/apply/confirmation`);
     } catch {
       alert('There was a problem submitting your application. Please try again.');
       setIsSubmitting(false);

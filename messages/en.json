@@ -1,11 +1,11 @@
 {
   "nav": {
-    "title": "Attendance Allowance Application",
+    "title": "Attendance Allowance Eligibility Check",
     "switchLang": "Български"
   },
   "home": {
-    "headline": "Apply for Attendance Allowance",
-    "subheadline": "Free, confidential help applying for the benefit you are entitled to.",
+    "headline": "Attendance Allowance Eligibility Check",
+    "subheadline": "Find out if you may be entitled to Attendance Allowance and get free, confidential support from our team.",
     "chooseLanguage": "Please choose your language to continue",
     "english": "English",
     "bulgarian": "Bulgarian"
@@ -15,7 +15,7 @@
   },
   "eligibility": {
     "title": "Check Your Eligibility",
-    "intro": "Before starting your application, please answer a few quick questions to confirm you may be entitled to Attendance Allowance.",
+    "intro": "Answer a few quick questions to see if you may be entitled to Attendance Allowance. This is not a government application — our team will contact you to help with the next steps.",
     "ageQuestion": "Are you aged 66 or over?",
     "residencyQuestion": "Have you lived in Great Britain for at least 2 of the last 3 years?",
     "benefitQuestion": "Are you currently receiving Disability Living Allowance (DLA), Personal Independence Payment (PIP), or Adult Disability Payment (ADP)?",
@@ -31,7 +31,12 @@
     "pensionCreditQuestion": "Are you currently receiving Pension Credit?",
     "pensionCreditHelp": "Pension Credit is a separate benefit — you can receive both Pension Credit and Attendance Allowance at the same time.",
     "alternativeHelp": "You may be entitled to other benefits. Contact Citizens Advice or your local council for more information.",
-    "continue": "Continue to Application"
+    "continue": "Continue",
+    "settlementQuestion": "Do you have the right to reside in the UK?",
+    "settlementHelp": "For example: British or Irish citizen, Settled Status (EUSS), Pre-Settled Status, Indefinite Leave to Remain, or another valid visa with right to reside.",
+    "ineligibleSettlement": "To be eligible for Attendance Allowance you must have the legal right to reside in the UK.",
+    "referredByLabel": "Who told you about us? (optional)",
+    "referredByPlaceholder": "e.g. John Smith"
   },
   "personal": {
     "title": "Your Personal Details",
@@ -61,9 +66,9 @@
   },
   "contact": {
     "title": "Your Contact Details",
-    "intro": "We will use these details to contact you about your application. Your phone number is required.",
+    "intro": "One of our advisors will call you to discuss your eligibility and help with the next steps. Your phone number is required.",
     "phone": "Phone number",
-    "phoneHelp": "We will call you on this number if we need more information",
+    "phoneHelp": "We will call you on this number to discuss your eligibility",
     "email": "Email address (optional)",
     "emailHelp": "We will send a confirmation to this address if provided",
     "phoneRequired": "Phone number is required",
@@ -139,8 +144,8 @@
     "roleRequired": "Please enter their role"
   },
   "review": {
-    "title": "Review Your Application",
-    "intro": "Please check all your answers below before submitting. Click any section heading to go back and edit.",
+    "title": "Review Your Details",
+    "intro": "Please check your answers below before we contact you. Click Edit on any section to make changes.",
     "personalSection": "Personal Details",
     "contactSection": "Contact Details",
     "healthSection": "Health Conditions",
@@ -149,18 +154,18 @@
     "medicationsSection": "Medications & Treatments",
     "professionalsSection": "Healthcare Professionals",
     "edit": "Edit",
-    "declaration": "I confirm that the information I have provided is true and accurate to the best of my knowledge.",
-    "submit": "Submit Application",
-    "submitting": "Submitting..."
+    "declaration": "I consent to being contacted by the team to discuss my Attendance Allowance eligibility. I confirm the information provided is accurate to the best of my knowledge.",
+    "submit": "Send Enquiry",
+    "submitting": "Sending..."
   },
   "confirmation": {
-    "title": "Application Submitted",
-    "thankYou": "Thank you for submitting your Attendance Allowance application.",
+    "title": "Details Received",
+    "thankYou": "Thank you — we have received your details and will be in touch shortly.",
     "nextSteps": "What happens next?",
-    "step1": "Your application has been received and will be reviewed by our team.",
-    "step2": "We will contact you using the phone number you provided within 2 working days.",
-    "step3": "Your completed form will be prepared and returned to you for signing within 48 hours of your call.",
-    "step4": "Once signed and returned, the DWP will process your claim. Decisions typically take 40 working days.",
+    "step1": "One of our advisors will review your eligibility check.",
+    "step2": "We will call you on the number you provided within 2 working days.",
+    "step3": "If you are eligible, we will help you complete and submit the official Attendance Allowance form.",
+    "step4": "Once submitted to DWP, decisions typically take around 40 working days.",
     "reference": "Your reference",
     "keepReference": "Please keep this reference number for your records.",
     "helpline": "If you have any questions, please call our helpline."
@@ -173,7 +178,7 @@
   },
   "errors": {
     "required": "This field is required",
-    "submitFailed": "There was a problem submitting your application. Please try again.",
+    "submitFailed": "There was a problem sending your details. Please try again.",
     "generic": "Something went wrong. Please try again."
   }
 }

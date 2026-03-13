@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { buildEmailHtml } from '@/lib/email';
+import { buildEmailHtml, buildConfirmationEmailHtml } from '@/lib/email';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -20,22 +20,33 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Server misconfiguration: TO_EMAIL not set' }, { status: 500 });
     }
 
-    const applicantName = body.personal
-      ? `${body.personal.firstName} ${body.personal.lastName}`
-      : 'Unknown Applicant';
+    const phone = body.contact?.phone || 'Unknown';
+    const referredBy = body.eligibility?.referredBy;
 
     const html = buildEmailHtml({ ...body, reference });
 
     const { error } = await resend.emails.send({
-      from: 'Attendance Allowance App <noreply@allowme.app>',
+      from: 'Attendance Allowance App <onboarding@resend.dev>',
       to: toEmail,
-      subject: `New Application: ${applicantName} [${reference}]`,
+      subject: referredBy
+        ? `New Enquiry: ${phone} · Ref: ${referredBy} [${reference}]`
+        : `New Enquiry: ${phone} [${reference}]`,
       html,
     });
 
     if (error) {
       console.error('Resend error:', error);
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    }
+
+    const userEmail = body.contact?.email;
+    if (userEmail) {
+      await resend.emails.send({
+        from: 'Attendance Allowance App <onboarding@resend.dev>',
+        to: userEmail,
+        subject: body.locale === 'bg' ? 'Получихме Вашето Запитване' : 'We Have Received Your Enquiry',
+        html: buildConfirmationEmailHtml(body.locale),
+      });
     }
 
     return NextResponse.json({ success: true, reference });

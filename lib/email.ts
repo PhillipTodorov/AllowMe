@@ -1,5 +1,34 @@
 import { ApplicationData } from './validations';
 
+export function buildConfirmationEmailHtml(locale?: string) {
+  const isBg = locale === 'bg';
+  return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#111827;">
+  <div style="background:#1d4ed8;color:white;padding:20px 24px;border-radius:12px 12px 0 0;">
+    <h1 style="margin:0;font-size:20px;">${isBg ? 'Получихме Вашето Запитване' : 'We Have Received Your Enquiry'}</h1>
+  </div>
+  <div style="background:#f9fafb;padding:24px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
+    <p style="margin:0 0 16px;">${isBg
+      ? 'Благодарим ви за изпратеното запитване относно Помощта за Обслужване.'
+      : 'Thank you for submitting your enquiry regarding Attendance Allowance.'}</p>
+    <p style="margin:0 0 16px;">${isBg
+      ? 'Един от нашите консултанти ще прегледа информацията ви и ще се свърже с вас по телефона в рамките на 2 работни дни.'
+      : 'One of our advisors will review your details and call you on the number you provided within 2 working days.'}</p>
+    <p style="margin:0;">${isBg ? 'С уважение,<br>Екипът на AllowMe' : 'Kind regards,<br>The AllowMe Team'}</p>
+  </div>
+  <p style="text-align:center;color:#9ca3af;font-size:12px;margin-top:16px;">
+    ${isBg
+      ? 'Това е автоматично потвърждение. Моля, не отговаряйте на този имейл.'
+      : 'This is an automated confirmation. Please do not reply to this email.'}
+  </p>
+</body>
+</html>
+  `.trim();
+}
+
 function row(label: string, value?: string | null) {
   if (!value) return '';
   return `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:4px 0;color:#111827;">${value}</td></tr>`;
@@ -33,9 +62,24 @@ export function buildEmailHtml(data: Partial<ApplicationData> & { locale?: strin
     ${row('Email', c.email)}
   `) : '';
 
-  const healthRows = h?.conditions.map((cond, i) =>
-    `<tr><td colspan="2" style="padding:6px 0;"><strong>${i + 1}. ${cond.name}</strong>${cond.diagnosedDate ? ` (${cond.diagnosedDate})` : ''}<br><span style="color:#6b7280;">${cond.description}</span></td></tr>`
-  ).join('') || '';
+  const referredBy = (data.eligibility as Record<string, string> | undefined)?.referredBy;
+  const referralSection = referredBy ? section('Referral', row('Referred by', referredBy)) : '';
+
+  const CONDITION_LABELS: Record<string, string> = {
+    highBloodPressure: 'High blood pressure', arthritis: 'Arthritis / Joint problems',
+    backSpine: 'Back / Spine problems', hearingImpairment: 'Hearing impairment',
+    visualImpairment: 'Visual impairment', mentalHealth: 'Mental health condition',
+    mobilityProblems: 'Mobility problems', diabetes: 'Diabetes',
+    copd: 'COPD / Breathing problems', epilepsy: 'Epilepsy',
+    kidneyDisease: 'Kidney disease', heartCondition: 'Heart condition',
+    stroke: 'Stroke / Neurological condition', parkinsons: "Parkinson's disease",
+    cancer: 'Cancer', dementia: 'Dementia / Memory problems',
+  };
+  const healthRows = h?.conditions?.length
+    ? h.conditions.map((key, i) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;">${i + 1}.</td><td style="padding:4px 0;">${CONDITION_LABELS[key] || key}</td></tr>`
+      ).join('') + (h.other ? `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;">Other</td><td style="padding:4px 0;">${h.other}</td></tr>` : '')
+    : (h?.other ? `<tr><td style="padding:4px 12px 4px 0;color:#6b7280;">Other</td><td style="padding:4px 0;">${h.other}</td></tr>` : '<tr><td>None listed</td></tr>');
   const healthSection = h ? section('Health Conditions', healthRows) : '';
 
   const daytimeRows = day
@@ -74,6 +118,7 @@ export function buildEmailHtml(data: Partial<ApplicationData> & { locale?: strin
     <p style="margin:4px 0 0;opacity:0.8;font-size:14px;">Reference: ${data.reference || 'N/A'} · Language: ${data.locale === 'bg' ? 'Bulgarian' : 'English'}</p>
   </div>
   <div style="background:#f9fafb;padding:24px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
+    ${referralSection}
     ${personalSection}
     ${contactSection}
     ${healthSection}

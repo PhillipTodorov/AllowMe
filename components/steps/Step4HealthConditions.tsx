@@ -1,25 +1,25 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useState } from 'react';
 
 const CONDITIONS = [
+  'highBloodPressure',
   'arthritis',
-  'dementia',
+  'backSpine',
+  'hearingImpairment',
+  'visualImpairment',
+  'mentalHealth',
+  'mobilityProblems',
   'diabetes',
+  'copd',
+  'epilepsy',
+  'kidneyDisease',
   'heartCondition',
   'stroke',
-  'copd',
   'parkinsons',
   'cancer',
-  'epilepsy',
-  'mentalHealth',
-  'visualImpairment',
-  'hearingImpairment',
-  'mobilityProblems',
-  'backSpine',
-  'kidneyDisease',
-  'highBloodPressure',
+  'dementia',
 ] as const;
 
 type ConditionKey = typeof CONDITIONS[number];
@@ -76,10 +76,8 @@ const CONDITION_LABELS_BG: Record<ConditionKey, string> = {
 export default function Step4HealthConditions({ data, onNext, onBack }: Props) {
   const t = useTranslations('health');
   const bt = useTranslations('buttons');
-
-  // Detect locale from document or use navigator language
-  const isBg = typeof window !== 'undefined' && window.location.pathname.startsWith('/bg');
-  const labels = isBg ? CONDITION_LABELS_BG : CONDITION_LABELS;
+  const locale = useLocale();
+  const labels = locale === 'bg' ? CONDITION_LABELS_BG : CONDITION_LABELS;
 
   const [selected, setSelected] = useState<Set<string>>(new Set(data.conditions || []));
   const [other, setOther] = useState(data.other || '');
