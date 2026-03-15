@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 interface Props {
   data: {
+    eligibility?: Record<string, string>;
     contact?: Record<string, string>;
     health?: { conditions: string[]; other: string };
   };
@@ -58,25 +59,40 @@ const CONDITION_LABELS: Record<string, string> = {
 
 export default function Step5Review({ data, onSubmit, onBack, onGoToStep, isSubmitting }: Props) {
   const t = useTranslations('review');
+  const et = useTranslations('eligibility');
   const bt = useTranslations('buttons');
   const [accepted, setAccepted] = useState(false);
 
-  const { contact, health } = data;
+  const { eligibility, contact, health } = data;
+
+  const yesNo = (v?: string) => v === 'yes' ? bt('yes') : v === 'no' ? bt('no') : '—';
 
   return (
     <div>
       <h2 className="text-2xl font-bold text-white mb-2">{t('title')}</h2>
       <p className="text-slate-400 mb-8">{t('intro')}</p>
 
+      {eligibility && (
+        <Section title={t('eligibilitySection')} step={1} onEdit={onGoToStep}>
+          <Row label={et('ageQuestion')} value={yesNo(eligibility.isOver66)} />
+          <Row label={et('residencyQuestion')} value={yesNo(eligibility.isUKResident)} />
+          <Row label={et('settlementQuestion')} value={yesNo(eligibility.hasSettledStatus)} />
+          <Row label={et('benefitQuestion')} value={yesNo(eligibility.hasConflictingBenefit)} />
+          <Row label={et('careQuestion')} value={yesNo(eligibility.needsCare)} />
+          <Row label={et('pensionCreditQuestion')} value={yesNo(eligibility.hasPensionCredit)} />
+          {eligibility.referredBy && <Row label={et('referredByLabel')} value={eligibility.referredBy} />}
+        </Section>
+      )}
+
       {contact && (
-        <Section title={t('contactSection')} step={2} onEdit={onGoToStep}>
-          <Row label="Phone" value={contact.phone} />
-          {contact.email && <Row label="Email" value={contact.email} />}
+        <Section title={t('contactSection')} step={3} onEdit={onGoToStep}>
+          <Row label="Телефон" value={contact.phone} />
+          {contact.email && <Row label="Имейл" value={contact.email} />}
         </Section>
       )}
 
       {health && (
-        <Section title={t('healthSection')} step={3} onEdit={onGoToStep}>
+        <Section title={t('healthSection')} step={2} onEdit={onGoToStep}>
           {health.conditions.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
               {health.conditions.map((c) => (

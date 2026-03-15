@@ -23,19 +23,25 @@ export default function ApplyPage() {
 
   const SESSION_KEY = 'allowme_form';
 
-  const [step, setStep] = useState<number>(() => {
-    if (typeof window === 'undefined') return 1;
-    try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}').step || 1; } catch { return 1; }
-  });
+  const [step, setStep] = useState<number>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [data, setData] = useState<FormData>(() => {
-    if (typeof window === 'undefined') return {};
-    try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}').data || {}; } catch { return {}; }
-  });
+  const [data, setData] = useState<FormData>({});
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ step, data }));
-  }, [step, data]);
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(SESSION_KEY) || '{}');
+      if (saved.step) setStep(saved.step);
+      if (saved.data) setData(saved.data);
+    } catch { /* ignore */ }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ step, data }));
+    }
+  }, [step, data, hydrated]);
 
   const goTo = (s: number) => {
     setStep(s);
@@ -78,16 +84,16 @@ export default function ApplyPage() {
         />
       )}
       {step === 2 && (
-        <Step3ContactDetails
-          data={data.contact || {}}
-          onNext={(d) => next(d, 'contact')}
+        <Step4HealthConditions
+          data={data.health || { conditions: [], other: '' }}
+          onNext={(d) => next(d, 'health')}
           onBack={back}
         />
       )}
       {step === 3 && (
-        <Step4HealthConditions
-          data={data.health || { conditions: [], other: '' }}
-          onNext={(d) => next(d, 'health')}
+        <Step3ContactDetails
+          data={data.contact || {}}
+          onNext={(d) => next(d, 'contact')}
           onBack={back}
         />
       )}

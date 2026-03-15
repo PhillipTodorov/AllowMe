@@ -42,6 +42,7 @@ function YesNoQuestion({
             key={v}
             type="button"
             onClick={() => onChange(v)}
+            suppressHydrationWarning
             className={`px-6 py-2 rounded-lg border-2 font-medium transition-colors ${
               value === v
                 ? 'border-blue-500 bg-blue-900/40 text-blue-300'

@@ -62,7 +62,7 @@ const CONDITION_LABELS_BG: Record<ConditionKey, string> = {
   stroke: 'Инсулт / Неврологично заболяване',
   copd: 'ХОББ / Проблеми с дишането',
   parkinsons: 'Болест на Паркинсон',
-  cancer: 'Рак',
+  cancer: 'Онкологично заболяване',
   epilepsy: 'Епилепсия',
   mentalHealth: 'Проблеми с психичното здраве',
   visualImpairment: 'Зрително увреждане',

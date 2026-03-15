@@ -12,7 +12,7 @@ export function buildConfirmationEmailHtml(locale?: string) {
   </div>
   <div style="background:#f9fafb;padding:24px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
     <p style="margin:0 0 16px;">${isBg
-      ? 'Благодарим ви за изпратеното запитване относно Помощта за Обслужване.'
+      ? 'Благодарим ви за изпратеното запитване относно Здравни Добавки.'
       : 'Thank you for submitting your enquiry regarding Attendance Allowance.'}</p>
     <p style="margin:0 0 16px;">${isBg
       ? 'Един от нашите консултанти ще прегледа информацията ви и ще се свърже с вас по телефона в рамките на 2 работни дни.'

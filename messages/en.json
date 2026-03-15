@@ -146,6 +146,7 @@
   "review": {
     "title": "Review Your Details",
     "intro": "Please check your answers below before we contact you. Click Edit on any section to make changes.",
+    "eligibilitySection": "Eligibility Check",
     "personalSection": "Personal Details",
     "contactSection": "Contact Details",
     "healthSection": "Health Conditions",

@@ -21,7 +21,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body className="bg-slate-950 min-h-screen">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <Header locale={locale} />
           <main className="max-w-2xl mx-auto px-4 py-8">
             {children}
